@@ -1,50 +1,9 @@
-$(function () {
-  /*
-}
-  console.log("Hello world.")
-  
-  data = [[0,0], [0,1], [1,0], [1,1]];
-  labels = [-1, 1, 1, -1];
-  svm = new svmjs.SVM();
-  svm.train(data, labels); // C is a parameter to SVM
-  
-  testdata = [[1,1], [1,0]];
-  testlabels = svm.predict(data);
-  
-  $("#result").html(JSON.stringify(testlabels))
-  */
-})
 
-var log = function (t) {
-  if (typeof(t) === "object") {
-    t = JSON.stringify(t)
-  }
-  $("#result").html(t)
-}
+const net = new brain.NeuralNetwork();
 
-SVM = ML.SVM
+net.train([{input: { r: 0.03, g: 0.7, b: 0.5 }, output: { black: 1 }},
+           {input: { r: 0.16, g: 0.09, b: 0.2 }, output: { white: 1 }},
+           {input: { r: 0.5, g: 0.5, b: 1.0 }, output: { white: 1 }}]);
 
-var options = {
-  C: 0.01,
-  tol: 10e-4,
-  maxPasses: 10,
-  maxIterations: 10000,
-  kernel: 'rbf',
-  kernelOptions: {
-    sigma: 0.5
-  }
-};
-
-var svm = new SVM(options);
-
-// Train the classifier - we give him an xor
-var features = [[0,0],[0,1],[1,1],[1,0]];
-var labels = [1, -1, 1, -1];
-svm.train(features, labels);
-
-// Let's see how narrow the margin is
-var margins = svm.margin(features);
-log(svm.margin([[0.5,0.5]]))
-
-// Let's see if it is separable by testing on the training data
-//log(svm.predict([[0.2,0.2]])); // [1, -1, 1, -1]
+const output = net.run({ r: 1, g: 0.4, b: 0 });  // { white: 0.99, black: 0.002 }
+log(output)
