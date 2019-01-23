@@ -1,3 +1,5 @@
+https://github.com/BrainJS/brain.js#browser
+
 
 # brain.js
 
